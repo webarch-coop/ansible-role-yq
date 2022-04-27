@@ -1,0 +1,70 @@
+---
+- name: Install or upgrade yq
+  block:
+
+    - name: Include local facts tasks
+      include_tasks: local_facts.yml
+
+#    - name: Which yq
+#      ansible.builtin.command: which yq
+#      check_mode: false
+#      changed_when: false
+#      register: yq_which
+#      failed_when: yq_which.rc is not regex('^0|1$')
+#
+#    - name: Check the yq version
+#      block:
+#
+#        - name: Check the yq version
+#          ansible.builtin.command: yq -a
+#          check_mode: false
+#          changed_when: false
+#          register: yq_a
+#    
+#        - name: Set a fact for the existing version information
+#          ansible.builtin.set_fact:
+#            yq_existing_json: "{{ yq_a.stdout | from_json }}"
+#    
+#        - name: Set a fact for the existing version information
+#          ansible.builtin.set_fact:
+#            yq_existing: "{{ yq_existing_json.version | string }}"
+#    
+#        - name: Debug the existing version and variable type
+#          ansible.builtin.debug:
+#            msg:
+#              - "variable value {{ yq_existing }}"
+#              - "variable type {{ yq_existing | type_debug }}"
+#            verbosity: 2
+#
+#      when: jc_which.rc == 0
+
+    - name: Find the latest version of yq
+      block:
+
+        - name: Use a HEAD request to get the latest redirect URL
+          ansible.builtin.uri:
+            url: https://github.com/mikefarah/yq/releases/latest
+            method: HEAD
+            status_code: 302
+            follow_redirects: none
+          check_mode: false
+          changed_when: false
+          register: yq_latest_headers
+
+        - name: Set a fact for the latest version of yq
+          ansible.builtin.set_fact:
+            yq_proposed: "{{ yq_latest_headers.location | urlsplit('path') | basename | regex_replace('^v') | string }}"
+
+      when: yq_version == "latest"
+
+    - name: Download yq   
+      get_url:
+        url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
+        dest: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
+        mode: 0600
+
+
+  when: yq
+  tags:
+    - yq
+...
