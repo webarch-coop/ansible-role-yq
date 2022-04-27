@@ -5,38 +5,34 @@
     - name: Include local facts tasks
       include_tasks: local_facts.yml
 
-#    - name: Which yq
-#      ansible.builtin.command: which yq
-#      check_mode: false
-#      changed_when: false
-#      register: yq_which
-#      failed_when: yq_which.rc is not regex('^0|1$')
-#
-#    - name: Check the yq version
-#      block:
-#
-#        - name: Check the yq version
-#          ansible.builtin.command: yq -a
-#          check_mode: false
-#          changed_when: false
-#          register: yq_a
-#    
-#        - name: Set a fact for the existing version information
-#          ansible.builtin.set_fact:
-#            yq_existing_json: "{{ yq_a.stdout | from_json }}"
-#    
-#        - name: Set a fact for the existing version information
-#          ansible.builtin.set_fact:
-#            yq_existing: "{{ yq_existing_json.version | string }}"
-#    
-#        - name: Debug the existing version and variable type
-#          ansible.builtin.debug:
-#            msg:
-#              - "variable value {{ yq_existing }}"
-#              - "variable type {{ yq_existing | type_debug }}"
-#            verbosity: 2
-#
-#      when: jc_which.rc == 0
+    - name: Which yq
+      ansible.builtin.command: which yq
+      check_mode: false
+      changed_when: false
+      register: yq_which
+      failed_when: yq_which.rc is not regex('^0|1$')
+
+    - name: Check the yq version
+      block:
+
+        - name: Check the yq version
+          ansible.builtin.command: yq -V
+          check_mode: false
+          changed_when: false
+          register: yq_v
+    
+        - name: Set a fact for the existing version information
+          ansible.builtin.set_fact:
+            yq_existing: "{{ yq_v.split(' ')[3] | trim | string }}"
+    
+        - name: Debug the existing version and variable type
+          ansible.builtin.debug:
+            msg:
+              - "variable value {{ yq_existing }}"
+              - "variable type {{ yq_existing | type_debug }}"
+            verbosity: 2
+
+      when: jc_which.rc == 0
 
     - name: Find the latest version of yq
       block:
@@ -57,12 +53,29 @@
 
       when: yq_version == "latest"
 
+    - name: Set a fact for the proposed version of yq when not latest
+      ansible.builtin.set_fact:
+        yq_proposed: "{{ yq_version | string }}"
+      when: ( yq_proposed is not defined ) or ( yq_proposed != "latest" )
+
     - name: Download yq   
       get_url:
         url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
         dest: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
-        mode: 0600
+        mode: 0700
+        owner: root
+        group: root
+      register: yq_download
 
+    - name: Copy yq into place
+      copy:
+        src: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
+        dest: /usr/local/bin/yq
+        remote_src: true
+        mode: 0755
+        owner: root
+        group: root
+        validate: %s -V
 
   when: yq
   tags:
