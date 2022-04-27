@@ -1,0 +1,24 @@
+---
+- name: Check the version of yq
+  block:
+
+    - name: Check the yq version
+      ansible.builtin.command: yq -V
+      check_mode: false
+      changed_when: false
+      register: yq_v
+  
+    - name: Set a fact for the existing version information
+      ansible.builtin.set_fact:
+        yq_existing: "{{ yq_v.split(' ')[3] | trim | string }}"
+  
+    - name: Debug the existing version and variable type
+      ansible.builtin.debug:
+        msg:
+          - "variable value {{ yq_existing }}"
+          - "variable type {{ yq_existing | type_debug }}"
+        verbosity: 2
+
+  tags:
+    - yq
+...
