@@ -10,7 +10,7 @@
 
     - name: Set a fact for the existing version information
       ansible.builtin.set_fact:
-        yq_existing: "{{ yq_v.split(' ')[3] | trim | string }}"
+        yq_existing: "{{ yq_v.stdout.split(' ')[3] | trim | string }}"
 
     - name: Debug the existing version and variable type
       ansible.builtin.debug:
