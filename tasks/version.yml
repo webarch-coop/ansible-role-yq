@@ -7,11 +7,11 @@
       check_mode: false
       changed_when: false
       register: yq_v
-  
+
     - name: Set a fact for the existing version information
       ansible.builtin.set_fact:
         yq_existing: "{{ yq_v.split(' ')[3] | trim | string }}"
-  
+
     - name: Debug the existing version and variable type
       ansible.builtin.debug:
         msg:

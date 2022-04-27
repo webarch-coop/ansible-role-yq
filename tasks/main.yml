@@ -40,7 +40,7 @@
         yq_proposed: "{{ yq_version | string }}"
       when: ( yq_proposed is not defined ) or ( yq_version != "latest" )
 
-    - name: Download yq   
+    - name: Download yq
       get_url:
         url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
         dest: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
