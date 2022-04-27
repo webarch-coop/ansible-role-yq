@@ -56,7 +56,7 @@
     - name: Set a fact for the proposed version of yq when not latest
       ansible.builtin.set_fact:
         yq_proposed: "{{ yq_version | string }}"
-      when: ( yq_proposed is not defined ) or ( yq_proposed != "latest" )
+      when: ( yq_proposed is not defined ) or ( yq_version != "latest" )
 
     - name: Download yq   
       get_url:
