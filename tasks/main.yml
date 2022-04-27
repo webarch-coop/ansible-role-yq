@@ -32,7 +32,7 @@
               - "variable type {{ yq_existing | type_debug }}"
             verbosity: 2
 
-      when: jc_which.rc == 0
+      when: yq_which.rc == 0
 
     - name: Find the latest version of yq
       block:
