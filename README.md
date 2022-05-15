@@ -4,7 +4,7 @@ An ansible role to install [yq](https://github.com/mikefarah/yq) on Debian and U
 
 This role installs a `dpkg_arch.fact` script into `/etc/ansible/facts.d` so that the `dpkg` architecture is available in order to determine which binary to download.
 
-This role has three [default variables](defaults/main.yml):
+This role has four [default variables](defaults/main.yml):
 
 | Variable name   | Default value   | Comment                                                                                                                |
 |-----------------|-----------------|------------------------------------------------------------------------------------------------------------------------|

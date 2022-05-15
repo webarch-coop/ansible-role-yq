@@ -51,7 +51,7 @@
 
     - name: Configure Bash completion for yq
       ansible.builtin.include_tasks: bash.yml
-      when: ( yq_completion != [] ) and ( "bash" in yq_completion )
+      when: ( yq_completion is defined ) and ( yq_completion != [] ) and ( "bash" in yq_completion )
 
     - name: Copy yq into place
       ansible.builtin.copy:
