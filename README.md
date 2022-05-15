@@ -1,5 +1,7 @@
 # Webarchitects yq Ansible role
 
+[![pipeline status](https://git.coop/webarch/yq/badges/main/pipeline.svg)](https://git.coop/webarch/yq/-/commits/main)
+
 An ansible role to install [yq](https://github.com/mikefarah/yq) on Debian and Ubuntu using binary files downloaded from GitHub.
 
 This role installs a `dpkg_arch.fact` script into `/etc/ansible/facts.d` so that the `dpkg` architecture is available in order to determine which binary to download.
