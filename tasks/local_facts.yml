@@ -32,7 +32,7 @@
       when: yq_dpkg_arch_facts.changed
 
     - name: Print Ansible dpkg --architecture variables
-      debug:
+      ansible.builtin.debug:
         msg: "{{ ansible_local.dpkg_arch }}"
         verbosity: 2
 

@@ -3,7 +3,7 @@
   block:
 
     - name: Include local facts tasks
-      include_tasks: local_facts.yml
+      ansible.builtin.include_tasks: local_facts.yml
 
     - name: Which yq
       ansible.builtin.command: which yq
@@ -13,7 +13,7 @@
       failed_when: yq_which.rc is not regex('^0|1$')
 
     - name: Check the yq version
-      include_tasks: version.yml
+      ansible.builtin.include_tasks: version.yml
       when: yq_which.rc == 0
 
     - name: Find the latest version of yq
@@ -41,7 +41,7 @@
       when: ( yq_proposed is not defined ) or ( yq_version != "latest" )
 
     - name: Download yq
-      get_url:
+      ansible.builtin.get_url:
         url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
         dest: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
         mode: 0700
@@ -50,7 +50,7 @@
       register: yq_download
 
     - name: Copy yq into place
-      copy:
+      ansible.builtin.copy:
         src: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
         dest: /usr/local/bin/yq
         remote_src: true
@@ -60,10 +60,10 @@
         validate: "%s -V"
 
     - name: Check the yq version
-      include_tasks: version.yml
+      ansible.builtin.include_tasks: version.yml
 
     - name: Debug the install version
-      debug:
+      ansible.builtin.debug:
         msg: "yq version {{ yq_proposed }} is installed"
 
   when: yq
