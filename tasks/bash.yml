@@ -33,6 +33,8 @@
         /root/yq_linux_{{ ansible_local.dpkg_arch.arch }} shell-completion bash > /root/yq-completion.bash
       args:
         executable: "{{ yq_bash }}"
+      check_mode: false
+      changed_when: false
 
     - name: Bash completion script in place
       copy:
