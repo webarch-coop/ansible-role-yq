@@ -36,12 +36,13 @@
 
     - name: Bash completion script in place
       copy:
-        src: /root/yq-completion.bash 
-        dest: /etc/bash_completion.d/yq-completion.bash
+        src: /root/yq-completion.bash
+        dest: /etc/bash_completion.d/yq
         remote_src: true
         mode: 0755
         owner: root
         group: root
+        validate: "%s"
 
   tags:
     - yq
