@@ -1,4 +1,4 @@
-# Webarchitects yc Ansible role
+# Webarchitects yq Ansible role
 
 An ansible role to install [yq](https://github.com/mikefarah/yq) on Debian and Ubuntu using binary files downloaded from GitHub.
 
