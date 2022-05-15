@@ -1,4 +1,5 @@
 ---
 yq: true
+yq_dpkg: /usr/bin/dpkg
 yq_version: latest
 ...
