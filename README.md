@@ -11,3 +11,8 @@ This role has two [default variables](defaults/main.yml):
 | `yq`          | `true`        | Run the tasks in this role, set to `false` for all tasks to be skipped                                                 |
 | `yq_version`  | `latest`      | Set to a [release version number](https://github.com/mikefarah/yq/releases) to install a version other than the latest |
 
+The primary URL of this repo is [`https://git.coop/webarch/yq`](https://git.coop/webarch/yq) however it is also [mirrored to GitHub](https://github.com/webarch-coop/ansible-role-yq) and [available via Ansible Galaxy](https://galaxy.ansible.com/chriscroome/yq).
+
+If you use this role please use a tagged release, see [the release notes](https://git.coop/webarch/yq/-/releases).
+
+This role can also be used with the [localhost repo](https://git.coop/webarch/localhost) to install `yq` locally.
