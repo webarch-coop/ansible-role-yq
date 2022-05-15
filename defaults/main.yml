@@ -1,5 +1,7 @@
 ---
 yq: true
+yq_completion:
+  - bash
 yq_dpkg: /usr/bin/dpkg
 yq_version: latest
 ...

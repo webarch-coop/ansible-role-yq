@@ -49,6 +49,10 @@
         group: root
       register: yq_download
 
+    - name: Configure Bash completion for yq
+      ansible.builtin.include_tasks: bash.yml
+      when: ( yq_completion != [] ) and ( "bash" in yq_completion )
+
     - name: Copy yq into place
       ansible.builtin.copy:
         src: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
