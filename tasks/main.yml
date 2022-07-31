@@ -4,6 +4,7 @@
 
     - name: Include local facts tasks
       ansible.builtin.include_tasks: local_facts.yml
+      when: ( ansible_local.dpkg is not defined ) or ( ansible_local.bash is not defined )
 
     - name: Which yq
       ansible.builtin.command: which yq
@@ -42,8 +43,8 @@
 
     - name: Download yq
       ansible.builtin.get_url:
-        url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
-        dest: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
+        url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg.arch }}"
+        dest: "/root/yq_linux_{{ ansible_local.dpkg.arch }}"
         mode: 0700
         owner: root
         group: root
@@ -56,7 +57,7 @@
 
     - name: Copy yq into place
       ansible.builtin.copy:
-        src: "/root/yq_linux_{{ ansible_local.dpkg_arch.arch }}"
+        src: "/root/yq_linux_{{ ansible_local.dpkg.arch }}"
         dest: /usr/local/bin/yq
         remote_src: true
         mode: 0755

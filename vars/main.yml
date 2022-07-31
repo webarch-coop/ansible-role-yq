@@ -1,0 +1,4 @@
+---
+# Paths for local_facts scripts
+apt_dpkg: /usr/bin/dpkg
+...

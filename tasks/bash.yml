@@ -16,23 +16,12 @@
         owner: root
         group: root
 
-    - name: Run which bash
-      command: which bash
-      check_mode: false
-      changed_when: false
-      register: yq_which_bash
-      failed_when: yq_which_bash.stdout is not regex('\/bash$')
-
-    - name: Set a variable for the path to Bash
-      set_fact:
-        yq_bash: "{{ yq_which_bash.stdout }}"
-
     - name: Generate a Bash completion script
       shell: |
         set -e -o pipefail
-        /root/yq_linux_{{ ansible_local.dpkg_arch.arch }} shell-completion bash > /root/yq-completion.bash
+        /root/yq_linux_{{ ansible_local.dpkg.arch }} shell-completion bash > /root/yq-completion.bash
       args:
-        executable: "{{ yq_bash }}"
+        executable: "{{ ansible_local.bash.path }}"
       check_mode: false
       changed_when: false
 
@@ -44,7 +33,7 @@
         mode: 0755
         owner: root
         group: root
-        validate: "{{ yq_bash }} -e %s"
+        validate: "{{ ansible_local.bash.path }} -e %s"
 
   tags:
     - yq
