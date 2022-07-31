@@ -47,6 +47,7 @@
         mode: 0700
         owner: root
         group: root
+        timeout: 120
       register: yq_download
 
     - name: Configure Bash completion for yq
