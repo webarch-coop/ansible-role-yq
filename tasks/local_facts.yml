@@ -38,7 +38,6 @@
       ansible.builtin.assert:
         that:
           - ansible_local.dpkg is defined
-          - ansible_local.gpg is defined
           - ansible_local.bash is defined
 
     - name: Print Ansible local dpkg facts
