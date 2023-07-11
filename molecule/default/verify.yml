@@ -1,0 +1,57 @@
+# Copyright 2022-2023 Chris Croome
+#
+# This file is part of the Webarchitects yq Ansible role.
+#
+# The Webarchitects yq Ansible role is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#
+# The Webarchitects yq Ansible role is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with the Webarchitects yq Ansible role. If not, see <https://www.gnu.org/licenses/>.
+---
+- name: Verify as root
+  become: true
+  connection: local
+  gather_facts: true
+  hosts:
+    - localhost
+  tasks:
+
+    - name: Run which yq
+      ansible.builtin.command: which yq
+      environment:
+        PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      check_mode: false
+      changed_when: false
+      register: molecule_root_which_yq
+
+    - name: Debug which yq
+      ansible.builtin.debug:
+        var: molecule_root_which_yq.stdout
+
+    - name: Run which yq -a
+      ansible.builtin.command: which yq -a
+      environment:
+        PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      check_mode: false
+      changed_when: false
+      register: molecule_root_which_yq_a
+      failed_when: molecule_root_which_yq_a.rc is not regex('^0|1$')
+
+    - name: Check yq versions
+      ansible.builtin.command: "{{ molecule_yq_path }} --version"
+      check_mode: false
+      changed_when: false
+      register: molecule_yq_v
+      loop: "{{ molecule_root_which_yq_a.stdout_lines }}"
+      loop_control:
+        loop_var: molecule_yq_path
+
+    - name: Set facts for the yq versions
+      ansible.builtin.set_fact:
+        molecule_yq_root_versions: "{{ molecule_yq_v | community.general.json_query('results[].{path: molecule_yq_path, version: stdout_lines[0]}') }}"
+
+    - name: Debug yq versions
+      ansible.builtin.debug:
+        var: molecule_yq_root_versions
+
+...

@@ -1,6 +1,26 @@
+# Copyright 2022-2023 Chris Croome
+#
+# This file is part of the Webarchitects yq Ansible role.
+#
+# The Webarchitects yq Ansible role is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#
+# The Webarchitects yq Ansible role is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with the Webarchitects yq Ansible role. If not, see <https://www.gnu.org/licenses/>.
 ---
+- name: Skip the tasks in this role as yq is false
+  ansible.builtin.debug:
+    msg: "The yq variable need to be true for the tasks in this role to run."
+  when: not yq | bool
+  tags:
+    - yq
+
 - name: Install or upgrade yq
   block:
+
+    - name: Include verify variables tasks
+      ansible.builtin.include_tasks: verify.yml
+      when: yq_verify | bool
 
     - name: Include apt role local fact tasks if variables are not defined
       ansible.builtin.include_role:
@@ -50,22 +70,27 @@
       ansible.builtin.get_url:
         url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg.arch }}"
         dest: "/root/yq_linux_{{ ansible_local.dpkg.arch }}"
-        mode: 0700
+        mode: "0700"
         owner: root
         group: root
         timeout: 120
+      check_mode: false
+      changed_when: false
       register: yq_download
 
     - name: Configure Bash completion for yq
       ansible.builtin.include_tasks: bash.yml
-      when: ( yq_completion is defined ) and ( yq_completion != [] ) and ( "bash" in yq_completion )
+      when:
+        - yq_completion is defined
+        - yq_completion != []
+        - ( "bash" in yq_completion )
 
     - name: Copy yq into place
       ansible.builtin.copy:
         src: "/root/yq_linux_{{ ansible_local.dpkg.arch }}"
         dest: /usr/local/bin/yq
         remote_src: true
-        mode: 0755
+        mode: "0755"
         owner: root
         group: root
         validate: "%s -V"
@@ -77,7 +102,7 @@
       ansible.builtin.debug:
         msg: "yq version {{ yq_proposed }} is installed"
 
-  when: yq
+  when: yq | bool
   tags:
     - yq
 ...

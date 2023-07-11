@@ -8,9 +8,29 @@
 #
 # You should have received a copy of the GNU General Public License along with the Webarchitects yq Ansible role. If not, see <https://www.gnu.org/licenses/>.
 ---
-yq: true
-yq_completion:
-  - bash
-yq_verify: true
-yq_version: latest
+- name: Run as root
+  become: true
+  connection: local
+  gather_facts: true
+  hosts:
+    - localhost
+  tasks:
+
+    - name: Debug ansible_effective_user_id
+      ansible.builtin.debug:
+        var: ansible_effective_user_id
+
+    - name: Debug ansible_user_id
+      ansible.builtin.debug:
+        var: ansible_user_id
+
+    - name: Debug ansible_user_dir
+      ansible.builtin.debug:
+        var: ansible_user_dir
+
+    - name: Include yq role as root
+      ansible.builtin.include_role:
+        name: yq
+      vars:  # noqa var-naming[no-role-prefix]
+        yq: true
 ...

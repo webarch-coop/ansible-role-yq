@@ -8,9 +8,25 @@
 #
 # You should have received a copy of the GNU General Public License along with the Webarchitects yq Ansible role. If not, see <https://www.gnu.org/licenses/>.
 ---
-yq: true
-yq_completion:
-  - bash
-yq_verify: true
-yq_version: latest
+- name: Verify variables
+  block:
+
+    - name: Debug the hostvars variable names that start with yq_
+      ansible.builtin.debug:
+        var: yqvarnames
+        verbosity: "{% if ansible_check_mode | bool %}3{% else %}4{% endif %}"
+
+    - name: Debug the hostvars variable names that start with yq_
+      ansible.builtin.debug:
+        var: yqhostvars
+        verbosity: "{% if ansible_check_mode | bool %}3{% else %}4{% endif %}"
+
+    - name: Check yq_ variables using meta/argument_specs.yml
+      ansible.builtin.validate_argument_spec:
+        argument_spec: "{{ (lookup('ansible.builtin.file', 'meta/argument_specs.yml') | from_yaml)['argument_specs']['main']['options'] }}"
+        provided_arguments: "{{ yqhostvars }}"
+
+  when: yq_verify | bool
+  tags:
+    - yq
 ...
