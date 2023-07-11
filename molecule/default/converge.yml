@@ -34,6 +34,12 @@
         dest: /home/ansible/builds/webarch
         requirements_file: /home/ansible/builds/webarch/yq/meta/requirements.yml
 
+    - name: Include apt role as root
+      ansible.builtin.include_role:
+        name: apt
+      vars:  # noqa var-naming[no-role-prefix]
+        apt: true
+
     - name: Include yq role as root
       ansible.builtin.include_role:
         name: yq

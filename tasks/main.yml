@@ -34,13 +34,9 @@
             state: present
           - name: dpkg.fact
             state: present
-      # when: >-
-      #   ( ansible_local.dpkg.arch is not defined ) or
-      #   ( ansible_local.bash.path is not defined )
-
-    - name: Debug ansible_local
-      ansible.builtin.debug:
-        var: ansible_local
+      when: >-
+        ( ansible_local.dpkg.arch is not defined ) or
+        ( ansible_local.bash.path is not defined )
 
     - name: Which yq
       ansible.builtin.command: which yq
