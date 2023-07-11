@@ -28,6 +28,12 @@
         tasks_from: local_facts.yml
       vars:
         apt: true
+        apt_local_facts: true
+        apt_local_facts_files:
+          - name: bash.fact
+            state: present
+          - name: dpkg.fact
+            state: present
       when: >-
         ( ansible_local.dpkg.arch is not defined ) or
         ( ansible_local.bash.path is not defined )
