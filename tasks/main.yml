@@ -28,8 +28,11 @@
         tasks_from: local_facts.yml
       when: >-
         ( ansible_local.dpkg.arch is not defined ) or
-        ( ansible_local.gpg.version is not defined ) or
         ( ansible_local.bash.path is not defined )
+
+    - name: Debug ansible_local
+      ansible.builtin.debug:
+        var: ansible_local
 
     - name: Which yq
       ansible.builtin.command: which yq
