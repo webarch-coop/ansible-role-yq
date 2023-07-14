@@ -56,5 +56,4 @@ jammy:
   stage: jammy
   script:
     - molecule test
-# vim: syntax=yaml
 ...

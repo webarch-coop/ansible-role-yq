@@ -20,7 +20,9 @@
 
     - name: Include verify variables tasks
       ansible.builtin.include_tasks: verify.yml
-      when: yq_verify | bool
+      when:
+        - yq_verify | bool
+        - ansible_version.full is version('2.11', '>=')
 
     - name: Include apt role local fact tasks if variables are not defined  # noqa: var-naming[no-role-prefix]
       ansible.builtin.include_role:

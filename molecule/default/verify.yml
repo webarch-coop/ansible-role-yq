@@ -53,5 +53,4 @@
     - name: Debug yq versions
       ansible.builtin.debug:
         var: molecule_yq_root_versions
-
 ...

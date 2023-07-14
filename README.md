@@ -6,11 +6,11 @@ An ansible role to install [yq](https://github.com/mikefarah/yq) on Debian and U
 
 ## Role Variables
 
-This role has four [default variables](defaults/main.yml), set `yq` to `true` for the tasks in this role to be run, see also the [meta/argument_specs.yml](meta/argument_specs.yml).
+This role has four [default variables](defaults/main.yml), set `yq` to `true` for the tasks in this role to be run, it defaults to `false`, see also the [meta/argument_specs.yml](meta/argument_specs.yml).
 
 | Variable name   | Default value | Comment                                                                                                                |
 |-----------------|---------------|------------------------------------------------------------------------------------------------------------------------|
-| `yq`            | `true`        | Run the tasks in this role, set to `false` for all tasks to be skipped                                                 |
+| `yq`            | `false`       | Run the tasks in this role, set to `false` for all tasks to be skipped                                                 |
 | `yq_completion` | `- bash`      | An array of shell completions to install, currently only `bash` is supported                                           |
 | `yq_verify`     | `true`        | Verify all variables that start with `yq_`                                                                             |
 | `yq_version`    | `latest`      | Set to a [release version number](https://github.com/mikefarah/yq/releases) to install a version other than the latest |
