@@ -9,10 +9,15 @@
 # You should have received a copy of the GNU General Public License along with the Webarchitects yq Ansible role. If not, see <https://www.gnu.org/licenses/>.
 ---
 variables:
+  ANSIBLE_ANY_ERRORS_FATAL: "1"
   ANSIBLE_CALLBACK_RESULT_FORMAT: "yaml"
+  ANSIBLE_DEFAULT_VERBOSITY: "1"
   ANSIBLE_DIFF_ALWAYS: "1"
   ANSIBLE_DISPLAY_SKIPPED_HOSTS: "0"
+  ANSIBLE_ERROR_ON_UNDEFINED_VARS: "1"
   ANSIBLE_FORCE_COLOR: "1"
+  ANSIBLE_INJECT_FACT_VARS: "0"
+  ANSIBLE_NOCOWS: "1"
   ANSIBLE_REMOTE_TMP: "/tmp"
   ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP: "1"
   DEBIAN_FRONTEND: noninteractive
@@ -35,17 +40,17 @@ stages:
   - bookworm
   - jammy
 trixie:
-  image: registry.git.coop/webarch/containers/images/trixie:20240814
+  image: registry.git.coop/webarch/containers/images/trixie:20241107
   stage: trixie
   script:
     - molecule test
 bookworm:
-  image: registry.git.coop/webarch/containers/images/bookworm:20240814
+  image: registry.git.coop/webarch/containers/images/bookworm:20241107
   stage: bookworm
   script:
     - molecule test
 jammy:
-  image: registry.git.coop/webarch/containers/images/jammy:20240814
+  image: registry.git.coop/webarch/containers/images/jammy:20241107
   stage: jammy
   script:
     - molecule test

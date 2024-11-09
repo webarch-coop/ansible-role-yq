@@ -28,9 +28,9 @@
     - name: Generate a Bash completion script
       ansible.builtin.shell: |
         set -e -o pipefail
-        /root/yq_linux_{{ ansible_local.dpkg.arch }} shell-completion bash > /root/yq-completion.bash
+        /root/yq_linux_{{ ansible_facts.ansible_local.dpkg.arch }} shell-completion bash > /root/yq-completion.bash
       args:
-        executable: "{{ ansible_local.bash.path }}"
+        executable: "{{ ansible_facts.ansible_local.bash.path }}"
       check_mode: false
       changed_when: false
 
@@ -42,7 +42,7 @@
         mode: "0755"
         owner: root
         group: root
-        validate: "{{ ansible_local.bash.path }} -e %s"
+        validate: "{{ ansible_facts.ansible_local.bash.path }} -e %s"
 
   tags:
     - yq

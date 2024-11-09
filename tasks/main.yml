@@ -22,15 +22,15 @@
       ansible.builtin.include_tasks: verify.yml
       when:
         - yq_verify | bool
-        - ansible_version.full is version('2.11', '>=')
+        - ansible_facts.version.full is version('2.11', '>=')
 
     - name: Include apt role local fact tasks if variables are not defined
       ansible.builtin.include_role:
         name: apt
         tasks_from: local_facts.yml
       when: >-
-        ( ansible_local.dpkg.arch is not defined ) or
-        ( ansible_local.bash.path is not defined )
+        ( ansible_facts.ansible_local.dpkg.arch is not defined ) or
+        ( ansible_facts.ansible_local.bash.path is not defined )
 
     - name: Which yq
       ansible.builtin.command: which yq
@@ -69,8 +69,8 @@
 
     - name: Download yq
       ansible.builtin.get_url:
-        url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_local.dpkg.arch }}"
-        dest: "/root/yq_linux_{{ ansible_local.dpkg.arch }}"
+        url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_proposed }}/yq_linux_{{ ansible_facts.ansible_local.dpkg.arch }}"
+        dest: "/root/yq_linux_{{ ansible_facts.ansible_local.dpkg.arch }}"
         mode: "0700"
         owner: root
         group: root
@@ -88,7 +88,7 @@
 
     - name: Copy yq into place
       ansible.builtin.copy:
-        src: "/root/yq_linux_{{ ansible_local.dpkg.arch }}"
+        src: "/root/yq_linux_{{ ansible_facts.ansible_local.dpkg.arch }}"
         dest: /usr/local/bin/yq
         remote_src: true
         mode: "0755"
