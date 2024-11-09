@@ -36,14 +36,10 @@ before_script:
   - which molecule
   - molecule --version
 stages:
-  - trixie
   - bookworm
   - jammy
-trixie:
-  image: registry.git.coop/webarch/containers/images/trixie:20241107
-  stage: trixie
-  script:
-    - molecule test
+  - noble
+  - trixie
 bookworm:
   image: registry.git.coop/webarch/containers/images/bookworm:20241107
   stage: bookworm
@@ -52,6 +48,16 @@ bookworm:
 jammy:
   image: registry.git.coop/webarch/containers/images/jammy:20241107
   stage: jammy
+  script:
+    - molecule test
+noble:
+  image: registry.git.coop/webarch/containers/images/noble:20241107
+  stage: noble
+  script:
+    - molecule test
+trixie:
+  image: registry.git.coop/webarch/containers/images/trixie:20241107
+  stage: trixie
   script:
     - molecule test
 ...
