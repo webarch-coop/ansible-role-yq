@@ -1,4 +1,4 @@
-# Copyright 2019-2023 Chris Croome
+# Copyright 2022-2025 Chris Croome
 #
 # This file is part of the Webarchitects yq Ansible role.
 #
@@ -11,26 +11,39 @@
 repos:
   # https://github.com/adrienverge/yamllint/tags
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.35.1
+    rev: v1.37.1
     hooks:
       - id: yamllint
         name: YAML Lint
+  # https://github.com/aristanetworks/j2lint/releases
+  - repo: https://github.com/aristanetworks/j2lint.git
+    rev: v1.2.0
+    hooks:
+      - id: j2lint
+        name: Jinja2-Linter
+        args:
+          - templates
   # https://github.com/jackdewinter/pymarkdown/releases
-  - repo: https://github.com/jackdewinter/pymarkdown
-    rev: v0.9.25
+  - repo: https://github.com/jackdewinter/pymarkdown.git
+    rev: v0.9.31
     hooks:
       - id: pymarkdown
         name: Markdown Lint
+        args:
+          - scan
+          - README.md
   # https://github.com/ansible/ansible-lint/releases
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v24.9.2
+    rev: v25.8.2
     hooks:
       - id: ansible-lint
         name: Ansible Lint
         language: python
         additional_dependencies:
+          # https://pypi.org/project/ansible/
+          # - ansible==11.9.0
           # https://github.com/kellyjonbrazil/jc/releases
-          - jc==1.25.3
+          - jc==1.25.5
           # https://github.com/jmespath/jmespath.py/tags
           - jmespath==1.0.1
 ...

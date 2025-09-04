@@ -1,4 +1,4 @@
-# Copyright 2022-2024 Chris Croome
+# Copyright 2022-2025 Chris Croome
 #
 # This file is part of the Webarchitects yq Ansible role.
 #
@@ -19,10 +19,10 @@ variables:
   ANSIBLE_INJECT_FACT_VARS: "0"
   ANSIBLE_NOCOWS: "1"
   ANSIBLE_REMOTE_TMP: "/tmp"
+  ANSIBLE_ROLES_PATH: "${CI_PROJECT_DIR}/..:~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles"
   ANSIBLE_SHELL_ALLOW_WORLD_READABLE_TEMP: "1"
-  DEBIAN_FRONTEND: noninteractive
-  DEFAULT_MANAGED_STR: "Ansible managed"
-  MOLECULE_VERBOSITY: "0"
+  DEBIAN_FRONTEND: "noninteractive"
+  MOLECULE_VERBOSITY: "2"
   PRE_COMMIT_COLOR: always
   PY_COLORS: "1"
 before_script:
@@ -41,12 +41,12 @@ stages:
   - noble
   - trixie
 bookworm:
-  image: registry.git.coop/webarch/containers/images/bookworm:20241107
+  image: registry.git.coop/webarch/containers/images/bookworm:20250821
   stage: bookworm
   script:
     - molecule test
 jammy:
-  image: registry.git.coop/webarch/containers/images/jammy:20241107
+  image: registry.git.coop/webarch/containers/images/jammy:20250821
   stage: jammy
   script:
     - molecule test
@@ -56,7 +56,7 @@ noble:
   script:
     - molecule test
 trixie:
-  image: registry.git.coop/webarch/containers/images/trixie:20241107
+  image: registry.git.coop/webarch/containers/images/trixie:20250821
   stage: trixie
   script:
     - molecule test
