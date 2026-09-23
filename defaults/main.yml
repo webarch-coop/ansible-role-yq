@@ -1,4 +1,4 @@
-# Copyright 2022-2025 Chris Croome
+# Copyright 2022-2026 Chris Croome
 #
 # This file is part of the Webarchitects yq Ansible role.
 #
@@ -13,4 +13,5 @@ yq_completion:
   - bash
 yq_verify: true
 yq_version: latest
+yq_user_agent: Lynx/2.9.2 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.8.5
 ...

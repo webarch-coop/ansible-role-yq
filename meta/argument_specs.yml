@@ -1,4 +1,4 @@
-# Copyright 2022-2025 Chris Croome
+# Copyright 2022-2026 Chris Croome
 #
 # This file is part of the Webarchitects yq Ansible role.
 #
@@ -25,6 +25,10 @@ argument_specs:
         choices:
           - bash
         description: Types of shell completion to install, currently only bash is supported.
+      yq_user_agent:
+        required: true
+        type: str
+        description: HTTP User Agent string.
       yq_verify:
         type: bool
         required: true

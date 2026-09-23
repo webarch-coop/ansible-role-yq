@@ -1,4 +1,4 @@
-# Copyright 2022-2025 Chris Croome
+# Copyright 2022-2026 Chris Croome
 #
 # This file is part of the Webarchitects yq Ansible role.
 #
@@ -26,10 +26,10 @@
         group: root
 
     - name: Generate a Bash completion script
-      ansible.builtin.shell: |
-        set -e -o pipefail
-        /root/yq_linux_{{ ansible_facts.ansible_local.dpkg.arch }} shell-completion bash > /root/yq-completion.bash
-      args:
+      ansible.builtin.shell:
+        cmd: |-
+          set -e -o pipefail
+          /root/yq_linux_{{ ansible_facts.ansible_local.dpkg.arch }} shell-completion bash > /root/yq-completion.bash
         executable: "{{ ansible_facts.ansible_local.bash.path }}"
       check_mode: false
       changed_when: false

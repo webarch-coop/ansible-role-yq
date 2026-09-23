@@ -1,4 +1,4 @@
-# Copyright 2022-2025 Chris Croome
+# Copyright 2022-2026 Chris Croome
 #
 # This file is part of the Webarchitects yq Ansible role.
 #
@@ -41,12 +41,12 @@ stages:
   - noble
   - trixie
 bookworm:
-  image: registry.git.coop/webarch/containers/images/bookworm:20250821
+  image: registry.git.coop/webarch/containers/images/bookworm:20260916
   stage: bookworm
   script:
     - molecule test
 jammy:
-  image: registry.git.coop/webarch/containers/images/jammy:20250821
+  image: registry.git.coop/webarch/containers/images/jammy:20260916
   stage: jammy
   script:
     - molecule test
@@ -56,7 +56,7 @@ noble:
   script:
     - molecule test
 trixie:
-  image: registry.git.coop/webarch/containers/images/trixie:20250821
+  image: registry.git.coop/webarch/containers/images/trixie:20260916
   stage: trixie
   script:
     - molecule test

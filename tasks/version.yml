@@ -1,4 +1,4 @@
-# Copyright 2022-2025 Chris Croome
+# Copyright 2022-2026 Chris Croome
 #
 # This file is part of the Webarchitects yq Ansible role.
 #
@@ -12,7 +12,8 @@
   block:
 
     - name: Check the yq version
-      ansible.builtin.command: yq -V
+      ansible.builtin.command:
+        cmd: yq -V
       check_mode: false
       changed_when: false
       register: yq_v
